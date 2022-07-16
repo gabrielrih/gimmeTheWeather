@@ -13,3 +13,6 @@ http://apiadvisor.climatempo.com.br/doc/index.html#api-UserTokenManagement-UserT
 
 - Forecast 72 hours
 http://apiadvisor.climatempo.com.br/doc/index.html#api-Forecast-Forecast72HoursByCity
+
+- Forecast 15 days
+http://apiadvisor.climatempo.com.br/doc/index.html#api-Forecast-Forecast15DaysByCity

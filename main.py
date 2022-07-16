@@ -3,26 +3,64 @@
     <gabrielrih>
 """
 from time import sleep
+from datetime import datetime
 
+# Private libraries
 import libs.climatempo as climatempo
 import libs.config as config
 
-# Get configs
-configs = config.Config('credentials.ini')
+def main():
+    
+    # Get configs
+    configs = config.Config('credentials.ini')
 
-# Start ClimaTempo class
-climatempo = climatempo.ClimaTempo(configs.token, configs.cityId)
-print("Forecast for " + climatempo.cityName + " - " + climatempo.state + " - " + climatempo.country)
+    # Start ClimaTempo class
+    clima = climatempo.ClimaTempo(configs.token, configs.cityId)
+    print("Forecast for " + clima.cityName + " - " + clima.state + " - " + clima.country)
 
-while (True):
+    while (True):
 
-    # Get current weather
-    climatempo.getCurrentWeather()
-    print("Temperature (Celsius): " + str(climatempo.currentTemperature) + "°")
-    print("Sensation (Celsius): " + str(climatempo.currentSensation) + "°")
-    print("Wind direction: " + str(climatempo.currentWindDirection))
-    print("Wind velocity: " + str(climatempo.currentWindVelocity))
-    print("Humidity: " + str(climatempo.currentHumidity))
-    print("Condition: " + str(climatempo.currentCondition))
-    print("Last update: " + str(climatempo.lastDateTime))
-    sleep(600) # wait 10 minutes
+        # Get forecast for 15 days
+        statusCode, response = clima.getForecast15Days()
+        if statusCode != 200:
+            raise Exception("Error: " + str(response))
+
+        # Filter results and gets just the today forecast
+        day = getForecastForToday(response['data'])
+        #print(day)
+        
+        # Get current weather
+        statusCode, response = clima.getCurrentWeather()
+        if statusCode != 200:
+            raise Exception("Error: " + str(response))
+        currentWeather = response
+        #print(currentWeather)
+
+        # Print forecast for today
+        print("Dia: " + str(day['date_br']))
+        print(str(day['text_icon']['text']['phrase']['reduced']))
+        print("Chuva - Probabilidade: " + str(day['rain']['probability']) + "% Precipitação: " + str(day['rain']['precipitation']) + "mm")
+        print("Sensação térmica: " + str(currentWeather['data']['sensation']) + "°")
+        print("Temperatura atual: " + str(currentWeather['data']['temperature']) + "°")
+        print("Manhã - Max: " + str(day['temperature']['morning']['max']) + "° Min: " + str(day['temperature']['morning']['min']) + "°")
+        print("Tarde - Max: " + str(day['temperature']['afternoon']['max']) + "° Min: "+ str(day['temperature']['afternoon']['min']) + "°")
+        print("Noite - Max: " + str(day['temperature']['night']['max']) + "° Min: "+ str(day['temperature']['night']['min']) + "°")
+        print("Nascer do sol: " + str(day['sun']['sunrise']))
+        print("Por do sol: " + str(day['sun']['sunset']))
+        
+        sleep(600) # wait 10 minutes
+
+def getForecastForToday(response):
+    from datetime import date
+    currentDate = date.today()
+    for day in response:
+        date = convertStringToData(day['date'])
+        if date == currentDate:
+            return(day)
+
+def convertStringToData(string):
+    date = datetime.strptime(string, '%Y-%m-%d').date()
+    return date
+
+if __name__ == '__main__':
+    main()
