@@ -1,2 +1,4 @@
 requests
 json
+yaml
+git+https://github.com/gabrielrih/callmebot.git@1.0.1

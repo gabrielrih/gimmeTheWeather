@@ -1,0 +1,8 @@
+climaTempo:
+  token: 123456abc6yhd536etqra4d53gd6f7da
+  cityId: 5011
+callMeBot:
+  - phoneNumber: +551199887766
+    apiKey: 123456
+  - phoneNumber: +553799112233
+    apiKey: 123456

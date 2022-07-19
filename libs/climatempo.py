@@ -18,22 +18,24 @@ class ClimaTempo:
         self.cityName, self.state, self.country = self._parseCity(response)
 
     def getCurrentWeather(self):
-        endpoint = "http://apiadvisor.climatempo.com.br/api/v1/weather/locale/" + self.cityId + "/current?token=" + self.token
+        endpoint = "http://apiadvisor.climatempo.com.br/api/v1/weather/locale/" + str(self.cityId) + "/current?token=" + self.token
         statusCode, response = self._callAPIUsingGetMethod(endpoint)
         return statusCode, self._jsonToDict(response)
 
+    # API reference: http://apiadvisor.climatempo.com.br/doc/index.html#api-Forecast-Forecast72HoursByCity
 #    def getForecast72Hours(self):
 #        endpoint = "http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/" + self.cityId + "/hours/72?token=" + self.token
 #        statusCode, response = self._callAPIUsingGetMethod(endpoint)
 #        return statusCode, self._jsonToDict(response)
 
+    # API reference: http://apiadvisor.climatempo.com.br/doc/index.html#api-Forecast-Forecast15DaysByCity
     def getForecast15Days(self):
-        endpoint = "http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/" + self.cityId + "/days/15?token=" + self.token
+        endpoint = "http://apiadvisor.climatempo.com.br/api/v1/forecast/locale/" + str(self.cityId) + "/days/15?token=" + self.token
         statusCode, response = self._callAPIUsingGetMethod(endpoint)
         return statusCode, self._jsonToDict(response)
 
     def _getCityById(self):
-        endpoint = "http://apiadvisor.climatempo.com.br/api/v1/locale/city/" + self.cityId + "?token=" + self.token
+        endpoint = "http://apiadvisor.climatempo.com.br/api/v1/locale/city/" + str(self.cityId) + "?token=" + self.token
         statusCode, response = self._callAPIUsingGetMethod(endpoint)
         return statusCode, response
 
