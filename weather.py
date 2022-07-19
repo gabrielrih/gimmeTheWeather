@@ -16,7 +16,7 @@ def main():
 
     # Start ClimaTempo class
     clima = climatempo.ClimaTempo(configs.token, configs.cityId)
-    print("Clima para " + clima.cityName + " - " + clima.state + " - " + clima.country)
+    content = "Clima para " + clima.cityName + " - " + clima.state + " - " + clima.country
     
     # Get forecast for 15 days
     statusCode, response = clima.getForecast15Days()
@@ -35,20 +35,23 @@ def main():
     #print(currentWeather)
 
     # Print forecast for today
-    print("Dia: " + str(day['date_br']))
-    print(str(day['text_icon']['text']['phrase']['reduced']))
-    print("Chuva - Probabilidade: " + str(day['rain']['probability']) + "% Precipitação: " + str(day['rain']['precipitation']) + "mm")
-    print("Sensação térmica: " + str(currentWeather['data']['sensation']) + "°")
-    print("Temperatura atual: " + str(currentWeather['data']['temperature']) + "°")
-    print("Manhã - Max: " + str(day['temperature']['morning']['max']) + "° Min: " + str(day['temperature']['morning']['min']) + "°")
-    print("Tarde - Max: " + str(day['temperature']['afternoon']['max']) + "° Min: "+ str(day['temperature']['afternoon']['min']) + "°")
-    print("Noite - Max: " + str(day['temperature']['night']['max']) + "° Min: "+ str(day['temperature']['night']['min']) + "°")
-    print("Nascer do sol: " + str(day['sun']['sunrise']))
-    print("Por do sol: " + str(day['sun']['sunset']))
+    content += "\n" + "Dia: " + str(day['date_br'])
+    content += "\n" + str(day['text_icon']['text']['phrase']['reduced'])
+    content += "\n" + "Chuva - Probabilidade: " + str(day['rain']['probability']) + "% Precipitação: " + str(day['rain']['precipitation']) + "mm"
+    content += "\n" + "Sensação térmica: " + str(currentWeather['data']['sensation']) + "°"
+    content += "\n" + "Temperatura atual: " + str(currentWeather['data']['temperature']) + "°"
+    content += "\n" + "Manhã - Max: " + str(day['temperature']['morning']['max']) + "° Min: " + str(day['temperature']['morning']['min']) + "°"
+    content += "\n" + "Tarde - Max: " + str(day['temperature']['afternoon']['max']) + "° Min: "+ str(day['temperature']['afternoon']['min']) + "°"
+    content += "\n" + "Noite - Max: " + str(day['temperature']['night']['max']) + "° Min: "+ str(day['temperature']['night']['min']) + "°"
+    content += "\n" + "Nascer do sol: " + str(day['sun']['sunrise'])
+    content += "\n" + "Por do sol: " + str(day['sun']['sunset'])
+
+    # Print in stdout
+    print(content)
 
     # Send forecast for each configured phoneNumber
     for receiver in configs.phoneNumbers:
-        wasSent, response = send_free_notification("Test", receiver['phoneNumber'], receiver['apiKey'], False)
+        wasSent, response = send_free_notification(content, receiver['phoneNumber'], receiver['apiKey'], False)
         if not wasSent:
             print("Error: " + str(response))
 
