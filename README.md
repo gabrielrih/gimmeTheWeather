@@ -1,6 +1,9 @@
 # gimmeTheWeather
 It returns weather informations and send notifications in some specific cases.
 
+## How to install it?
+- pip install -r requirements.txt
+
 ## How to use it?
 - Download the repo
 - Change "config-example.yml" file name to "config.yml".
