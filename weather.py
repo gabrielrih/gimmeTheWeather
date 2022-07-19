@@ -2,7 +2,6 @@
     Gimme the weather
     <gabrielrih>
 """
-import sys
 from datetime import datetime
 
 # Private libraries
