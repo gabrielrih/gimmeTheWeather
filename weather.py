@@ -37,7 +37,7 @@ def main():
     # Print forecast for today
     content += "\n" + "Dia: " + str(day['date_br'])
     content += "\n" + str(day['text_icon']['text']['phrase']['reduced'])
-    content += "\n" + "Chuva - Probabilidade: " + str(day['rain']['probability']) + "% Precipitação: " + str(day['rain']['precipitation']) + "mm"
+    content += "\n" + "Chuva: " + str(day['rain']['probability']) + "% (" + str(day['rain']['precipitation']) + "mm)"
     content += "\n" + "Sensação térmica: " + str(currentWeather['data']['sensation']) + "°"
     content += "\n" + "Temperatura atual: " + str(currentWeather['data']['temperature']) + "°"
     content += "\n" + "Manhã - Max: " + str(day['temperature']['morning']['max']) + "° Min: " + str(day['temperature']['morning']['min']) + "°"
